@@ -8,7 +8,7 @@
     <ProjectGuid>f29fe892-f6aa-4267-a9d7-85284ca9952c</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>AkkaNetFsharp</RootNamespace>
-    <AssemblyName>AkkaNetFsharp</AssemblyName>
+    <AssemblyName>FsharpTasker</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
