@@ -7,22 +7,21 @@ open Akka.Routing
 open Akka.Cluster
 open FsharpCommon
 
-let config = ConfigurationFactory.Load()
-let system = System.create "clusterexample" <| config
 
-
-let router = spawnOpt system "router"  (actorOf (fun msg -> printfn "received '%s'" msg)) [SpawnOption.Router(FromConfig.Instance)]
-printfn "%A" router.Path
+let system = System.create "clusterexample" <| ConfigurationFactory.Load()
+let router = spawne system "router" <@ WorkerActor.workerActor @> <| [SpawnOption.Router(FromConfig.Instance)] 
 
 [<EntryPoint>]
 let main argv = 
-    [1..20000] |> Seq.iter (fun x -> 
+    async {
+        do! Async.Sleep 5000
+    } |> Async.RunSynchronously
+
+    [1..1000] |> Seq.iter(fun x -> 
         async {
-            router.Tell(Value 5)
-            do! Async.Sleep 500
-            let! response = router <? Respond
-            printfn "value received %A" response
-         } |> Async.RunSynchronously
+            let! response = router <? (Message.TaskMessage x)
+            printfn "%A" response
+        } |> Async.RunSynchronously
     )
     System.Console.ReadKey() |> ignore
-    0 
+    0
